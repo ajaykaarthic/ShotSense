@@ -18,4 +18,5 @@ https://google.github.io/mediapipe/
 MediaPipe Documentation
 https://google.github.io/mediapipe/getting_started/python_framework.html
 
+DeepFit
 https://github.com/namanarora42/DeepFit
