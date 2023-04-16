@@ -8,5 +8,14 @@ Run ```pip install -r requirements.txt```
 ## Deployment 
 To run your own version of ShotSense, use `python3 predict_shot.py`
 
-Inspired by (https://www.github.com/namanarora42) and (https://www.github.com/AbhinaavSingh)
+Inspired by [@namanarora42](https://www.github.com/namanarora42) and [@AbhinaavSingh](https://www.github.com/AbhinaavSingh)
 
+## References
+
+MediaPipe
+https://google.github.io/mediapipe/
+
+MediaPipe Documentation
+https://google.github.io/mediapipe/getting_started/python_framework.html
+
+https://github.com/namanarora42/DeepFit
