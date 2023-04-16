@@ -8,5 +8,5 @@ Run ```pip install -r requirements.txt```
 ## Deployment 
 To run your own version of ShotSense, use `python3 predict_shot.py`
 
-Inspired by [@namanarora42] (https://www.github.com/username) and  [@AbhinaavSingh] (https://www.github.com/username)
+Inspired by (https://www.github.com/namanarora42) and (https://www.github.com/AbhinaavSingh)
 
