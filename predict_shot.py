@@ -268,7 +268,7 @@ def main():
         # Following line overlays transparent rectangle over the image
         image_new = cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)          
             
-        cv2.imshow('DEEPFIT Workout Trainer', image_new)
+        cv2.imshow('SHOT SENSE', image_new)
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
             
