@@ -1,0 +1,28 @@
+name: Multiple sequence jobs
+
+on: push
+
+jobs:
+    job1:
+      runs-on: ubuntu-latest
+      steps:
+      - name: write hello world
+        run: echo "hello world" >> dummy.txt
+  
+      - name: upload dummy.txt
+        uses: actions/upload-artifact@v3
+        with:
+          name: dummy-text-file
+          path: dummy.txt
+  
+    job2:
+      needs: job1
+      runs-on: ubuntu-latest
+      steps:
+      - name: Download dummy.txt
+        uses: actions/download-artifact@v3
+        with:
+          name: dummy-text-file
+  
+      - name: display contents
+        run: cat dummy.txt
