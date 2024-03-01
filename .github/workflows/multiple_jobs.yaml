@@ -18,6 +18,8 @@ jobs:
     job2:
       needs: job1
       runs-on: ubuntu-latest
+      environment:
+        name: test
       steps:
       - name: Download dummy.txt
         uses: actions/download-artifact@v3
