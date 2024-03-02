@@ -23,6 +23,7 @@ jobs:
         name: test
       steps:
         - uses: trstringer/manual-approval@v1
+          timeout-minutes: 1
           with:
             secret: ${{ github.TOKEN }}
             approvers: ajaykaarthic
