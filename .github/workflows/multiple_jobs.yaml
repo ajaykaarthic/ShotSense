@@ -15,7 +15,8 @@ jobs:
           name: dummy-text-file
           path: dummy.txt
   
-    job2:
+    approval:
+      name: approval job
       needs: job1
       runs-on: ubuntu-latest
       environment:
@@ -28,3 +29,12 @@ jobs:
   
       - name: display contents
         run: cat dummy.txt
+    
+    cancel:
+      name: cancel the workflow
+      runs-on: ubuntu-latest
+      steps:
+        - name: Dump GitHub context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
