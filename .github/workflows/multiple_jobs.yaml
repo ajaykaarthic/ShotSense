@@ -19,8 +19,8 @@ jobs:
       name: approval job
       needs: job1
       runs-on: ubuntu-latest
-      environment:
-        name: test
+      # environment:
+      #   name: test
       steps:
         - uses: trstringer/manual-approval@v1
           timeout-minutes: 1
