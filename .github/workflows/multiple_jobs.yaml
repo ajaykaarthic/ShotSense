@@ -22,19 +22,13 @@ jobs:
       environment:
         name: test
       steps:
-      - name: Download dummy.txt
-        uses: actions/download-artifact@v3
-        with:
-          name: dummy-text-file
-  
-      - name: display contents
-        run: cat dummy.txt
-    
-    cancel:
-      name: cancel the workflow
-      runs-on: ubuntu-latest
-      steps:
-        - name: Dump GitHub context
-          env:
-            GITHUB_CONTEXT: ${{ toJson(github) }}
-          run: echo "$GITHUB_CONTEXT"
+        - uses: trstringer/manual-approval@v1
+          with:
+            secret: ${{ github.TOKEN }}
+            approvers: ajaykaarthic
+            minimum-approvals: 1
+            issue-title: "Deploying v1.3.5 to prod from staging"
+            issue-body: "Please approve or deny the deployment of version v1.3.5."
+            exclude-workflow-initiator-as-approver: false
+            additional-approved-words: ''
+            additional-denied-words: ''
