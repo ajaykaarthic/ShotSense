@@ -9,8 +9,6 @@ lm_dict = {
   0:0 , 1:10, 2:12, 3:14, 4:16, 5:11, 6:13, 7:15, 8:24, 9:26, 10:28, 11:23, 12:25, 13:27, 14:5, 15:2, 16:8, 17:7,
 }
 
-
-
 def set_pose_parameters():
     mode = False 
     complexity = 1
@@ -21,7 +19,6 @@ def set_pose_parameters():
     trackCon = 0.5
     mpPose = mp.solutions.pose
     return mode,complexity,smooth_landmarks,enable_segmentation,smooth_segmentation,detectionCon,trackCon,mpPose
-
 
 def get_pose (img, results, draw=True):        
         if results.pose_landmarks:
@@ -43,7 +40,6 @@ def get_position(img, results, height, width, draw=True ):
                 if draw:
                     cv2.circle(img, (landmark_pixel_x, landmark_pixel_y), 5, (255,0,0), cv2.FILLED)
         return landmark_list    
-
 
 def get_angle(img, landmark_list, point1, point2, point3, draw=True):   
         #Retrieve landmark coordinates from point identifiers
@@ -81,8 +77,6 @@ def get_angle(img, landmark_list, point1, point2, point3, draw=True):
                         cv2.FONT_HERSHEY_PLAIN, 2, (0,0,255), 2)
         return angle
 
-    
-    
 def convert_mediapipe_keypoints_for_model(lm_dict, landmark_list):
     inp_pushup = []
     for index in range(0, 36):
@@ -92,18 +86,15 @@ def convert_mediapipe_keypoints_for_model(lm_dict, landmark_list):
             inp_pushup.append(round(landmark_list[lm_dict[index-18]][2],3))
     return inp_pushup
 
-
-
 # Setting variables for video feed
-def set_video_feed_variables():
-    cap = cv2.VideoCapture("videos/IMG_4290.MOV")
+def set_video_feed_variables(file_path):
+    cap = cv2.VideoCapture(file_path)
     count = 0
     direction = 0
     form = 0
     feedback = "Bad Form."
     frame_queue = deque(maxlen=250)
     return cap,count,direction,form,feedback,frame_queue
-
 
 def set_percentage_bar_and_text(elbow_angle, knee_angle):
     success_percentage = np.interp(knee_angle, (90, 160), (0, 100))
@@ -205,9 +196,7 @@ def display_workout_stats(count, form, feedback, draw_percentage_progress_bar, s
     show_workout_feedback(feedback, img)
 
 
-
-
-def main():
+def main(file_path):
     mode, complexity, smooth_landmarks, enable_segmentation, smooth_segmentation, detectionCon, trackCon, mpPose = set_pose_parameters()
     pose = mpPose.Pose(mode, complexity, smooth_landmarks,
                                 enable_segmentation, smooth_segmentation,
@@ -215,15 +204,21 @@ def main():
 
 
     # Setting video feed variables
-    cap, count, direction, form, feedback, frame_queue = set_video_feed_variables()
-
-
+    cap, count, direction, form, feedback, frame_queue = set_video_feed_variables(file_path)
 
     #Start video feed and run workout
     knee_form = 0
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+    frame_size = (frame_width,frame_height)
+    print(file_path)
+    output = cv2.VideoWriter(f"results/{file_path.split('/')[-1].split('.')[0]}.avi", cv2.VideoWriter_fourcc('M','J','P','G'), 20, frame_size)
+    
     while cap.isOpened():
         #Getting image from camera
         ret, img = cap.read()
+        if img is None:
+            break
         
         #Getting video dimensions
         width  = cap.get(3)  
@@ -267,7 +262,8 @@ def main():
         alpha = 0.75  # Transparency factor.
         # Following line overlays transparent rectangle over the image
         image_new = cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)          
-            
+        
+        output.write(image_new)
         cv2.imshow('SHOT SENSE', image_new)
         if cv2.waitKey(10) & 0xFF == ord('q'):
             break
@@ -276,4 +272,4 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    main()
+    main("/videos/IMG_4290.MOV")
